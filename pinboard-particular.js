@@ -10,15 +10,25 @@ var appUrl = null;
 var quoteSelectionAsMarkdown = false;
 // when this text appears in title or description they are added as tags
 var tagKeywords = {
-  javascript:'javascript',
-  js:'javascript',
-  python:'python',
-  ios:'ios',
-  youtube:'video',
-  vimeo:'video',
-  video:'video',
-  books:'book',
-  book:'book'
+  javascript:'JS',
+  js:'JS',
+  python:'Python',
+  ios:'iOS',
+  youtube:'Video',
+  vimeo:'Video',
+  video:'Video',
+  html:'HTML',
+  css:'CSS',
+  animation: "Animation",
+  animate: "Animation",
+  seo: "SEO",
+  svg: "Vector",
+  icon: "Icons",
+  icons: "Icons",
+  sass: "SASS",
+  html5: "HTML5",
+  grunt: "GruntJS",
+  jquery: "jQuery"
 };
 
 // this matches domain names to special selectors for the title
@@ -39,11 +49,11 @@ var descriptionTweaks = {
 // some people like stack overflow straighten their curly quotes
 var normalize = function(string) {
   return string.toLowerCase();
-}
+};
 
 var elementText = function(el) {
   return el ? el.textContent.trim().replace(/\s+/g,' ') : null;
-}
+};
 
 var normalizedDocumentTitle = normalize(document.title);
 
@@ -51,8 +61,7 @@ var normalizedDocumentTitle = normalize(document.title);
 var isSubtitle = function(string) {
   if(string) {
     return normalizedDocumentTitle.indexOf(normalize(string)) != -1;
-  }
-  else {
+  } else {
     return false;
   }
 };
@@ -83,7 +92,7 @@ var getTitle = function() {
     }
   }
   var documentTitle = document.title;
-  var e = document.querySelector("meta[property='og:title']");
+  e = document.querySelector("meta[property='og:title']");
   if(e) {
     documentTitle = e.content.trim().replace(/\s+/g,' ');
   }
@@ -95,7 +104,7 @@ var getTitle = function() {
         '.hentry .entry-title'
       );
     if(htitle) {
-      return elementText(htitle)
+      return elementText(htitle);
     }
   }
 
@@ -120,7 +129,7 @@ var getTitle = function() {
   var headerTitle;
   for(var j=0;j<headerTags.length;++j) {
     selectFromNodeList(document.getElementsByTagName(headerTags[j]), function(h) {
-      h_text = elementText(h)
+      h_text = elementText(h);
       if(isSubtitle(h_text) && (!headerTitle || h_text.length > headerTitle.length)) {
         headerTitle = h_text;
       }
@@ -139,7 +148,7 @@ var getTags = function(text) {
   text = normalize(text);
   var tags = [];
   var re;
-  for(keyword in tagKeywords) {
+  for(var keyword in tagKeywords) {
     re = keyword instanceof RegExp ? keyword : new RegExp("\\b"+keyword+"\\b","i");
     if(re.test(text)) {
       tags.push(tagKeywords[keyword]);
@@ -191,7 +200,7 @@ var title = getTitle();
 var description = getDescription();
 // remove if title is trailing or leading
 var ix = description.indexOf(title);
-if(ix == 0) {
+if(ix === 0) {
   description = description.substring(title.length).trim();
 }
 else if(ix == description.length-title.length) {
@@ -226,7 +235,7 @@ else {
   // Send the window to the background if readlater mode.
   if(readlater) {
     pin.blur();
-  }  
+  }
 }
 
-})()
+})();
